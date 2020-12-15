@@ -6,7 +6,6 @@ class ComputCatalog {
   constructor() {}
 
   compCatalogJson() {
-
     const fileDir = resolve(__dirname, "dataset");
     const filePath = join(fileDir, "catalog.json");
 
