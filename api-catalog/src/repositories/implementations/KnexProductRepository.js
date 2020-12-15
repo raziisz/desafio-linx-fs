@@ -25,11 +25,13 @@ class KnexProductRepository extends IProductRepository {
     if (complete) {
       return await this._database('products')
         .select('*')
-        .where('id', '=', id);
+        .where('id', '=', id)
+        .first();
     } else {
       return await this._database('products')
         .select('name', 'price', 'status', 'categories')
-        .where('id', '=', id);
+        .where('id', '=', id)
+        .first();
     }
   }
 }

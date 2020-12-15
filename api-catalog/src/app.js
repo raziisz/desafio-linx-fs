@@ -1,4 +1,5 @@
 const express = require('express');
+const router = require('./routes');
 const computCatalogs = require('./utils/computCatalog');
 
 class App {
@@ -9,6 +10,7 @@ class App {
 
   async middlewares() {
     this.express.use(express.json());
+    this.express.use(router);
     this.express.use(this.errorHandler);
     await computCatalogs();
   }
