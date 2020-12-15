@@ -10,7 +10,13 @@ class ComputCatalog {
     this.repo = new ProductRepository(knex);
   }
 
-  compCatalogJson() {
+  async compCatalogJson() {
+    const amountProducts = await this.repo.countProducts();
+
+    if (amountProducts > 0) {
+      return;
+    }
+    
     const fileDir = resolve(__dirname, "dataset");
     const filePath = join(fileDir, "catalog.json");
 

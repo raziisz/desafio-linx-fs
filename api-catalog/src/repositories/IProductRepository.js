@@ -10,6 +10,10 @@ class IProductRepository {
   getProduct(id) {
     throw new NotImplementedException();
   }
+
+  countProducts() {
+    throw new NotImplementedException();
+  }
 }
 
 module.exports = IProductRepository;
