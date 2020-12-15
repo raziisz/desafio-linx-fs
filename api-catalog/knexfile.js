@@ -5,9 +5,10 @@ module.exports = {
   development: {
     client: 'postgres',
     connection: {
-      database: "apicatalog",
-      user: "postgres",
-      password: "123456"
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -15,6 +16,12 @@ module.exports = {
     },
     seeds: {
       directory: `${__dirname}/src/database/seeds`
+    }
+  },
+  test: {
+    client: process.env.DB_DIALECT,
+    connection: {
+      filename: `${__dirname}/__tests__/database.sqlite`
     }
   }
 };
