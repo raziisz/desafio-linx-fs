@@ -3,11 +3,11 @@ const IProductRepository = require("../IProductRepository");
 class KnexProductRepository extends IProductRepository {
   constructor({ database }) {
     super();
-    this.database = database;
+    this._database = database;
   }
 
   async addProduct(data) {
-    await this.database('products').insert(data);
+    await this._database('products').insert(data);
   }
 }
 

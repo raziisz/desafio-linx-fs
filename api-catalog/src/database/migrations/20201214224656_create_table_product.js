@@ -10,6 +10,7 @@ exports.up = function(knex) {
     table.string('brand', 100);
     table.string('categories', 200);
     table.decimal('price');
+    table.json('installment');
     table.text('description');
     table.string('type', 100);
   });
