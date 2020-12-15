@@ -22,3 +22,5 @@ class ComputCatalog {
 
   }
 }
+
+module.exports = new ComputCatalog().compCatalogJson;
