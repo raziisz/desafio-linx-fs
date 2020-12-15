@@ -1,52 +1,61 @@
 const { createReadStream } = require('fs');
 const { resolve, join } = require('path');
 const { createInterface } = require('readline');
+const { once } = require('events');
 
 const ProductRepository = require('../repositories/implementations/KnexProductRepository');
 const knex = require('../database');
 
 class ComputCatalog {
   constructor() {
-    this.repo = new ProductRepository(knex);
+    this.repo = new ProductRepository({ database: knex});
+    this.compCatalogJson = this.compCatalogJson.bind(this);
   }
 
   async compCatalogJson() {
-    const amountProducts = await this.repo.countProducts();
-
-    if (amountProducts > 0) {
-      return;
-    }
-    
-    const fileDir = resolve(__dirname, "dataset");
-    const filePath = join(fileDir, "catalog.json");
-
-    const readable = createReadStream(filePath);
-    const rl = createInterface({
-      input: readable
-    });
-
-    rl.on('line', async line => {
-      const result = JSON.parse(line);
-      const data = {
-        id: result.id,
-        name: result.name,
-        clientLastUpdated: result.clientLastUpdated,
-        oldPrice: result.oldPrice,
-        created: result.created,
-        image: result.images.default,
-        brand: result.brand,
-        categories: result.categories.map(categorie => {
-          return `${categorie.id} - ${categorie.name}`;
-        }).join(' | '),
-        price: parseFloat(result.price),
-        installment: JSON.stringify(result.installment),
-        description: result.description,
-        type: result.type
+    try {
+      const amountProducts = await this.repo.countProducts();
+      if (amountProducts > 0) {
+        return;
       }
-      //save data
+      
+      const fileDir = resolve(__dirname, "dataset");
+      const filePath = join(fileDir, "catalog.json");
+  
+      const readable = createReadStream(filePath);
+      const rl = createInterface({
+        input: readable
+      });
+  
+      rl.on('line', async line => {
+        const result = JSON.parse(line);
+        const data = {
+          id: result.id,
+          name: result.name,
+          clientLastUpdated: result.clientLastUpdated,
+          oldPrice: result.oldPrice,
+          created: result.created,
+          image: result.images.default,
+          brand: result.brand,
+          categories: result.categories.map(categorie => {
+            return `${categorie.id} - ${categorie.name}`;
+          }).join(' | '),
+          price: parseFloat(result.price),
+          installment: JSON.stringify(result.installment),
+          description: result.description,
+          type: result.type
+        }
+        //save data
+  
+        await this.repo.addProduct(data);
+      });
+      await once(rl, 'close');
 
-      await this.repo.addProduct(data);
-    });
+      console.log('File processed');
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
 
   }
 }

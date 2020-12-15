@@ -1,4 +1,5 @@
 const express = require('express');
+const computCatalogs = require('./utils/computCatalog');
 
 class App {
   constructor() {
@@ -6,9 +7,10 @@ class App {
     this.middlewares();
   }
 
-  middlewares() {
+  async middlewares() {
     this.express.use(express.json());
     this.express.use(this.errorHandler);
+    await computCatalogs();
   }
 
   errorHandler(error, request, response, next) {
