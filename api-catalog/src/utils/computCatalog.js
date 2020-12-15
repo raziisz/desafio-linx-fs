@@ -43,7 +43,8 @@ class ComputCatalog {
           price: parseFloat(result.price),
           installment: JSON.stringify(result.installment),
           description: result.description,
-          type: result.type
+          type: result.type,
+          status: result.status
         }
         //save data
   

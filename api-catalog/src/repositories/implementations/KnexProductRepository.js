@@ -20,6 +20,18 @@ class KnexProductRepository extends IProductRepository {
 
     return amount_products;
   }
+
+  async getProduct(id, complete = false) {
+    if (complete) {
+      return await this._database('products')
+        .select('*')
+        .where('id', '=', id);
+    } else {
+      return await this._database('products')
+        .select('name', 'price', 'status', 'categories')
+        .where('id', '=', id);
+    }
+  }
 }
 
 module.exports = KnexProductRepository;

@@ -13,6 +13,7 @@ exports.up = function(knex) {
     table.json('installment');
     table.text('description');
     table.string('type', 100);
+    table.string('status', 100);
   });
 };
 
