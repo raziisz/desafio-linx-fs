@@ -4,13 +4,14 @@ const request = require('supertest');
 const app = require('../../src/app');
 const knex = require('../../src/database');
 
+
+const id = 12602;
 const PRODUCT_COMPACT = {
   name: "Cortina para Box 180x180cm EVA 3D Mor - 12319",
   price: "649.90",
   status: "AVAILABLE",
   categories: "452 - Casa e Decoração | 364 - Banheiro | 512 - Cortina Box"
 }
-
 const PRODUCT_COMPLETE = {
   id: "12602",
   name: "Cortina para Box 180x180cm EVA 3D Mor - 12319",
@@ -30,9 +31,8 @@ const PRODUCT_COMPLETE = {
   status: "AVAILABLE"
 }
 
-describe('Products', () => {
+describe('Products controller route', () => {
   beforeAll((done) => {
-    
     knex.migrate.rollback()
       .then(() => {
         knex.migrate.latest()
@@ -41,18 +41,28 @@ describe('Products', () => {
             done();
           });
       })
-    
-    done();
   })
 
-  it('should get an product by id ', async () => {
-    const id = 12602;
-
+  it('should get an product by id compact ', async () => {
     const response = await request(app)
       .get(`/products/${id}`);
 
-    expect(response.body.name).toBe(PRODUCT_COMPACT.name)
+    expect(response.body).toEqual(PRODUCT_COMPACT)
   });
+
+  it('should get an product by id complete', async () => {
+    const response = await request(app)
+      .get(`/products/${id}?response=complete`);
+
+    expect(response.body).toEqual(PRODUCT_COMPLETE);
+  });
+
+  it('should returns an error message', async () => {
+    const idNotFound = 789745;
+    const response = await request(app)
+      .get(`/products/${idNotFound}`);
+    expect(response.body.message).toBe('Not found product');
+  })
 
   afterAll((done) => {
     knex.migrate.rollback()

@@ -10,7 +10,8 @@ class KnexProductRepository extends IProductRepository {
   }
 
   async addProduct(data) {
-    await this._database('products').insert(data);
+    const { rowCount } = await this._database('products').insert(data);
+    return rowCount;
   }
 
   async countProducts() {
@@ -18,7 +19,7 @@ class KnexProductRepository extends IProductRepository {
       .select(this._database.raw('count(*) as amount_products'))
       .first();
 
-    return amount_products;
+    return parseInt(amount_products);
   }
 
   async getProduct(id, complete = false) {

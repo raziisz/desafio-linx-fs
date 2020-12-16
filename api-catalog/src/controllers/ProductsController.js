@@ -11,8 +11,11 @@ class ProductController {
     let complete = response === 'complete';
     try {
       const result = await this._repository.getProduct(id, complete);
-
-      return res.json(result);
+      
+      if (result)
+        return res.json(result);
+      
+      return res.status(404).json({ message: 'Not found product'});
     } catch (error) {
       next(error);
     }
