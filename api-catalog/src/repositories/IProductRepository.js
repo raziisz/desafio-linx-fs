@@ -1,4 +1,4 @@
-const NotImplemented = require('../utils/NotImplemented');
+const NotImplementedException = require('../utils/NotImplemented');
 
 class IProductRepository {
   constructor() {}
