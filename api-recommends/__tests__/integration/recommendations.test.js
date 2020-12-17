@@ -1,7 +1,12 @@
-const { into } = require("../../../api-catalog/src/database");
+const request = require('supertest');
+const app = require('../../src/app');
 
 describe('Recommendations controller', () => {
-  it('should get arrays products most popular and price reduction', () => {
+  
+  it.only('should get products most popular and pricereduction', async () => {
+    const response = await request(app)
+      .get(`recommendations-prod`);
     
+    expect(response.body).toEqual([]);
   })
 });

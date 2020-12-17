@@ -1,13 +1,18 @@
 require('dotenv').config();
 
 class ProductCatalogService {
-  constructor(api) {
-    this.api = api;
+  constructor(provider) {
+    this._provider = provider;
     this.baseUrl = process.env.API_CATALOG_BASE || 'http://localhost:3333';
   }
 
   async getProductById(id, options = {}) {
-    const result = await this.api.get(`${this.baseUrl}/products/${id}`, {
+    if (!!id) {
+      let error = new Error('O id não pode ser nullo');
+      error.status = 404;
+      throw error;
+    }
+    const result = await this._provider.get(`${this.baseUrl}/products/${id}`, {
       params: {
         ...options
       }
