@@ -2,8 +2,8 @@ const { Router } = require('express');
 const factoryRecommendations = require('./factories/factorieRecommendations');
 const { recommendationsController } = factoryRecommendations();
 
-const routes = Router();
+const router = Router();
 
-routes.get('recommendations-prod', recommendationsController.index);
+router.get('/recommendations', recommendationsController.index);
 
-module.exports = routes;
+module.exports = router;

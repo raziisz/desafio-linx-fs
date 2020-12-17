@@ -7,7 +7,7 @@ class RecommendationsServices {
   }
 
   async getsProductsRecommendations(type) {
-    if (!!type) {
+    if (!type) {
       const error = new Error('type recommendation not should is empty');
       error.status = 500;
       throw error;

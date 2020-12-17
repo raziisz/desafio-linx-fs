@@ -10,7 +10,8 @@ const getInstance = () => {
 
   return {
     recommendationsController,
-    service
+    serviceProductCatalog,
+    serviceRecommendations
   }
 }
 

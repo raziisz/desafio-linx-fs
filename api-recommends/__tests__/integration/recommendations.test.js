@@ -5,7 +5,7 @@ describe('Recommendations controller', () => {
   
   it.only('should get products most popular and pricereduction', async () => {
     const response = await request(app)
-      .get(`recommendations-prod`);
+      .get(`/recommendations`);
     
     expect(response.body).toEqual([]);
   })

@@ -2,14 +2,10 @@ const RecommendationsParams = require('../../src/helpers/RecommendationsParams')
 
 const MOCK_PARAMS_DEFAULT = {
   maxProducts: 10,
-  mostpopular: '',
-  pricereduction: ''
 }
 
 const MOCK_PARAMS = {
-  maxProducts: 20,
-  mostpopular: 'test',
-  pricereduction: 100 
+  maxProducts: 20
 }
 
 describe('Recommendations params', () => {
