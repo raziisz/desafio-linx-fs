@@ -1,35 +1,48 @@
 const express = require('express');
 const router = require('./routes');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDefinition = require('./swaggerDefinitions.json');
 const computCatalogs = require('./utils/computCatalog');
 
 require('dotenv').config({
   path: process.env.NODE_ENV.trim() === 'test' ? ".env.test" : ".env"
 })
 
-class App {
-  constructor() {
-    this.express = express();
-    this.middlewares();
-  }
+const app = express();
 
-  async middlewares() {
-    this.express.use(express.json());
-    this.express.use(router);
-    this.express.use(this.errorHandler);
-    await computCatalogs();
-  }
+const options = {
+  definition: swaggerDefinition,
+  apis: ['./routes.js']
+};
 
-  errorHandler(error, request, response, next) {
-    let message = '';
-    if (!error.status) {
-      message = 'Internal error server';
-      console.log('error', error.message);
-    } else {
-      message = error.message;
-    }
-    response.status(error.status || 500);
-    response.json({ error: message });
-  }
-}
+app.use(express.json());
+app.use(router);
 
-module.exports = new App().express;
+//swagger
+let swaggerSpec = swaggerJsDoc(options);
+app.use('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec)
+})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+//comput catalogs from json
+computCatalogs();
+
+
+//handle error
+app.use(function (error, request, response, next) {
+  let message = '';
+  if (!error.status) {
+    message = 'Internal error server';
+    console.log('error', error.message);
+  } else {
+    message = error.message;
+  }
+  response.status(error.status || 500);
+  response.json({ error: message });
+});
+
+
+module.exports = app;

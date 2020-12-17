@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Catalog API",
+    "version": "1.0.0",
+    "description": "Catalog Products API Information",
+    "contact": {
+      "name": "Luiz Felipe",
+      "email": "raziel_libertino@hotmail.com"
+    },
+    "server": ["http://localhost:3333"]
+  }
+}

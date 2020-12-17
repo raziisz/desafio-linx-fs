@@ -1,6 +1,7 @@
 // Update with your config settings.
+const envv = process.env?.NODE_ENV?.trim() === 'test' || false; 
 require('dotenv').config({
-  path: process.env.NODE_ENV.trim() === 'test' ? ".env.test" : ".env"
+  path: envv ? ".env.test" : ".env"
 });
 module.exports = {
   development: {
