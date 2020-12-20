@@ -19,10 +19,13 @@ main {
 #items-wrapper #arrow-left {
   margin-right: 20px;
   width: 300px;
+  cursor: pointer;
 }
 #items-wrapper #arrow-right {
   margin-left: 20px;
   width: 300px;
+  cursor: pointer;
+
 }
 
 #items-wrapper .items {
@@ -36,6 +39,8 @@ main {
 
 #items-wrapper .items .item {
   flex: none;
+  display: flex;
+  flex-direction: column;
   width: 25%;
   height: 400px;
   scroll-snap-align: start;
@@ -43,6 +48,6 @@ main {
 }
 #items-wrapper .items .item img {
   width: 100%;
-  height: 100%;
+  height: 50%;
   object-fit: cover;
 }
