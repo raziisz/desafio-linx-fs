@@ -11,20 +11,20 @@ describe('Recommendations controller', () => {
     expect(response.body).toHaveProperty('productsMostPopular');
   });
 
-  it('should returns an object with arrays length 10', async () => {
+  it('should returns an object with arrays length 7 and 8', async () => {
     const response = await request(app)
       .get(`/recommendations`);
 
-    expect(response.body.productsPricesReductions.length).toBe(10);
-    expect(response.body.productsMostPopular.length).toBe(10);
+    expect(response.body.productsPricesReductions.length).toBe(7);
+    expect(response.body.productsMostPopular.length).toBe(8);
   });
 
-  it('should returns an object with arrays length 15', async () => {
+  it('should returns an object with arrays length 11 (filter not founds and UNAVAIBLE)', async () => {
     const response = await request(app)
       .get(`/recommendations?maxProducts=15`);
 
-    expect(response.body.productsPricesReductions.length).toBe(15);
-    expect(response.body.productsMostPopular.length).toBe(15);
+    expect(response.body.productsPricesReductions.length).toBe(11);
+    expect(response.body.productsMostPopular.length).toBe(11);
   });
 
   it('should returns an error not found', async () => {
@@ -35,7 +35,7 @@ describe('Recommendations controller', () => {
     expect(response.status).toBe(404);
   });
 
-  it.only('should returns an array with objects products compact', async () => {
+  it('should returns an array with objects products compact', async () => {
     const response = await request(app)
       .get(`/recommendations`);
     

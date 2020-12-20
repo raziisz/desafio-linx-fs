@@ -16,7 +16,7 @@ describe('Recommendations params', () => {
   });
 
   it('should get recommendations params', () => {
-    const params = new RecommendationsParams(MOCK_PARAMS.maxProducts, MOCK_PARAMS.mostpopular, MOCK_PARAMS.pricereduction);
+    const params = new RecommendationsParams(MOCK_PARAMS.maxProducts);
 
     expect(params).toEqual(MOCK_PARAMS);
   });

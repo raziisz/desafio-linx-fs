@@ -3,7 +3,7 @@ require('dotenv').config();
 class ProductCatalogService {
   constructor(provider) {
     this._provider = provider;
-    this.baseUrl = process.env.API_CATALOG_BASE || 'http://localhost:3333';
+    this._baseUrl = process.env.API_CATALOG_BASE || 'http://localhost:3333';
   }
 
   async getProductById(id, options = {}) {
@@ -12,7 +12,8 @@ class ProductCatalogService {
       error.status = 404;
       throw error;
     }
-    const result = await this._provider.get(`${this.baseUrl}/products/${id}`, {
+    options.response = 'complete';
+    const result = await this._provider.get(`${this._baseUrl}/products/${id}`, {
       params: {
         ...options
       }
