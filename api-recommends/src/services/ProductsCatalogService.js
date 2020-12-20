@@ -43,6 +43,8 @@ class ProductCatalogService {
       }
     }
 
+    products = products.slice(0, options.quantity);
+
     return products;
   }
 }
