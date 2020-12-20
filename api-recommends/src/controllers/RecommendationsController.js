@@ -15,20 +15,22 @@ class RecommendationsController {
     let productsPricesReductions = [];
     let productsMostPopular = [];
     
+    let resultPricesReductions = [];
+    let resultMostPopular = [];
+    
     try {
-      const resultPricesReductions = await this._serviceRecommendations.getsProductsRecommendations('pricereduction');
-      const resultMostPopular = await this._serviceRecommendations.getsProductsRecommendations('mostpopular');   
+      resultPricesReductions = await this._serviceRecommendations.getsProductsRecommendations('pricereduction');
+      resultMostPopular = await this._serviceRecommendations.getsProductsRecommendations('mostpopular');   
     } catch (error) {
       console.log('deu ruim', error);
     }
-    let quantity = params.maxProducts + 1;
+
+    let quantity = params.maxProducts;
     productsMostPopular = resultMostPopular.sort((a, b) => b.weight - a.weight).slice(0, quantity);
     productsPricesReductions = resultPricesReductions.sort((a, b) => b.weight - a.weight).slice(0, quantity);
 
+
     
-
-
-
     return response.send({productsPricesReductions, productsMostPopular});
   }
 }

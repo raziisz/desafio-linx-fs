@@ -16,7 +16,11 @@ app.use(function (error, request, response, next) {
     message = error.message;
   }
   response.status(error.status || 500);
-  response.json({ error: message });
+  return response.json({ error: message });
+});
+
+app.use((request, response) => {
+  return response.status(404).json({ message: 'not found'});
 });
 
 module.exports = app;
