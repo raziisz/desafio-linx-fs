@@ -27,11 +27,21 @@ describe('Recommendations controller', () => {
     expect(response.body.productsMostPopular.length).toBe(15);
   });
 
-  it.only('should returns an error not found', async () => {
+  it('should returns an error not found', async () => {
     const response = await request(app)
-    .get(`/recommendationss`);
+      .get(`/recommendationss`);
 
     expect(response.body.message).toEqual('not found');
     expect(response.status).toBe(404);
+  });
+
+  it.only('should returns an array with objects products compact', async () => {
+    const response = await request(app)
+      .get(`/recommendations`);
+    
+    expect(response.body.productsPricesReductions[0]).toHaveProperty('name');
+    expect(response.body.productsPricesReductions[0]).toHaveProperty('price');
+    expect(response.body.productsPricesReductions[0]).toHaveProperty('status');
+    expect(response.body.productsPricesReductions[0]).toHaveProperty('categories');
   });
 });

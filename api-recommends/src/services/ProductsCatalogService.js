@@ -7,7 +7,7 @@ class ProductCatalogService {
   }
 
   async getProductById(id, options = {}) {
-    if (!!id) {
+    if (!id) {
       let error = new Error('O id não pode ser nullo');
       error.status = 404;
       throw error;
@@ -19,6 +19,30 @@ class ProductCatalogService {
     });
 
     return result.data;
+  }
+
+  async getProducts(data = [], options = {}) {
+    let products = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const productId = data[i].recommendedProduct.id;
+      try {
+        let product = await this.getProductById(productId, options);
+        let isUnavailable = product.status === 'UNAVAILABLE';
+        
+        if (isUnavailable) continue;
+        
+        products.push(product);    
+      } catch (error) {
+        if (error.response.status === 404) {
+          continue;
+        }
+
+        throw error;
+      }
+    }
+
+    return products;
   }
 }
 
